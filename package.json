@@ -1,0 +1,26 @@
+{
+  "name": "githubactionsdemo",
+  "version": "1.0.0",
+  "description": "This is a github actions repo",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nyc mocha 'test/*.js' --recursive --timeout 60000 --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShashankG-Gollapally/GithubActionsDemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShashankG-Gollapally/GithubActionsDemo/issues"
+  },
+  "homepage": "https://github.com/ShashankG-Gollapally/GithubActionsDemo#readme",
+  "devDependencies": {
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1"
+  }
+}
