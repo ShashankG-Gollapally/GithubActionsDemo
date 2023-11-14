@@ -4,26 +4,35 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
+    branches: ["master", "main"]
+  push:
+    branches: ["master", "main"]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
-      - run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm run tests
+
+  set-status:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Set test status
+        if: always()
+        run: |
+          STATUS=$(echo "${{ job.status }}" | tr -d '[:space:]')
+          if [ "$STATUS" == "success" ]; then
+            gh pr check --success --name "tests" --message "Tests passed"
+          else
+            gh pr check --failure --name "tests" --message "Tests failed"
+          fi
