@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   pull_request:
-    branches: ["master", "main"]
-  push:
-    branches: ["master", "main"]
+    types:
+      - opened
+      - synchronize
 
 jobs:
   test:
@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: npm run tests
+        run: npm run test
 
   set-status:
     runs-on: ubuntu-latest
